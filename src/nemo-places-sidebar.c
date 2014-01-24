@@ -399,12 +399,15 @@ add_place (NemoPlacesSidebar *sidebar,
 	int icon_size;
 	gboolean show_eject, show_unmount;
 	gboolean show_eject_button;
+    gint scale;
+
+    scale = gtk_widget_get_scale_factor (GTK_WIDGET (sidebar));
 
 	cat_iter = check_heading_for_devices (sidebar, section_type, cat_iter);
 
 	icon_size = nemo_get_icon_size_for_stock_size (GTK_ICON_SIZE_MENU);
 
-	icon_info = nemo_icon_info_lookup (icon, icon_size);
+	icon_info = nemo_icon_info_lookup (icon, icon_size, scale);
 
 	pixbuf = nemo_icon_info_get_pixbuf_at_size (icon_info, icon_size);
 	g_object_unref (icon_info);
