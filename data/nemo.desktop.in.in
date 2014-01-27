@@ -281,6 +281,7 @@ Terminal=false
 Type=Application
 StartupNotify=false
 Categories=GNOME;GTK;Utility;Core;
+OnlyShowIn=X-Cinnamon;
 MimeType=inode/directory;application/x-gnome-saved-search;
 X-GNOME-Bugzilla-Bugzilla=GNOME
 X-GNOME-Bugzilla-Product=nemo
