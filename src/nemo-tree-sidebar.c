@@ -1407,13 +1407,6 @@ create_popup_menu (FMTreeView *view)
     add_action_popup_items (view);
 }
 
-static gint
-get_icon_scale_callback (FMTreeModel *model,
-                         FMTreeView  *view)
-{
-   return gtk_widget_get_scale_factor (GTK_WIDGET (view->details->tree_widget));
-}
-
 static void
 create_tree (FMTreeView *view)
 {
@@ -1494,9 +1487,6 @@ create_tree (FMTreeView *view)
 				 "move_copy_items",
 				 G_CALLBACK (move_copy_items_callback),
 				 view, 0);
-
-    g_signal_connect_object (view->details->child_model, "get-icon-scale",
-                 G_CALLBACK (get_icon_scale_callback), view, 0);
 
     view->details->action_manager = nemo_action_manager_new ();
 
@@ -1761,4 +1751,3 @@ nemo_tree_sidebar_new (NemoWindow *window)
 
 	return GTK_WIDGET (sidebar);
 }
-
