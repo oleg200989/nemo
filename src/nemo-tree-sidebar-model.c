@@ -331,7 +331,7 @@ get_menu_icon_for_file (TreeNode *node,
 
 	g_list_free_full (emblem_icons, g_object_unref);
 
-	info = nemo_icon_info_lookup (gicon, size, 2);
+	info = nemo_icon_info_lookup (gicon, size, node->icon_scale);
 	retval = nemo_icon_info_get_pixbuf_nodefault_at_size (info, size);
 	model = node->root->model;
 
@@ -1273,12 +1273,15 @@ fm_tree_model_get_path (GtkTreeModel *model, GtkTreeIter *iter)
 }
 
 static cairo_surface_t *
-get_surface (TreeNode *node, gpointer pixbuf_getter, guint scale)
+get_surface (TreeNode *node, gboolean closed, guint scale)
 {
     GdkPixbuf *pixbuf;
     cairo_surface_t *surface;
 
-    pixbuf = tree_node_get_closed_pixbuf (node);
+    if (closed)
+        pixbuf = tree_node_get_closed_pixbuf (node);
+    else
+        pixbuf = tree_node_get_open_pixbuf (node);
     surface = gdk_cairo_surface_create_from_pixbuf (pixbuf, scale, NULL);
     return surface;
 }
@@ -1309,18 +1312,18 @@ fm_tree_model_get_value (GtkTreeModel *model, GtkTreeIter *iter, int column, GVa
 		g_value_init (value, CAIRO_GOBJECT_TYPE_SURFACE);
         icon_scale = fm_tree_model_get_icon_scale (model);
         if (node == NULL) {
-            g_value_set_object (value, NULL);
+            g_value_take_boxed (value, NULL);
         } else {
-            g_value_take_boxed (value, get_surface (node, tree_node_get_closed_pixbuf, icon_scale));
+            g_value_take_boxed (value, get_surface (node, TRUE, icon_scale));
         }
 		break;
 	case FM_TREE_MODEL_OPEN_SURFACE_COLUMN:
 		g_value_init (value, CAIRO_GOBJECT_TYPE_SURFACE);
         icon_scale = fm_tree_model_get_icon_scale (model);
         if (node == NULL) {
-            g_value_set_object (value, NULL);
+            g_value_take_boxed (value, NULL);
         } else {
-            g_value_take_boxed (value, get_surface (node, tree_node_get_open_pixbuf, icon_scale));
+            g_value_take_boxed (value, get_surface (node, FALSE, icon_scale));
         }
 		break;
 	case FM_TREE_MODEL_FONT_STYLE_COLUMN:
