@@ -1530,11 +1530,6 @@ create_tree (FMTreeView *view)
 
 	cell = gtk_cell_renderer_pixbuf_new ();
 	gtk_tree_view_column_pack_start (column, cell, FALSE);
-	// gtk_tree_view_column_set_attributes (column, cell,
-	// 				     "surface", FM_TREE_MODEL_CLOSED_SURFACE_COLUMN,
-	// 				   //  "pixbuf_expander_closed", FM_TREE_MODEL_CLOSED_SURFACE_COLUMN,
-	// 				   //  "pixbuf_expander_open", FM_TREE_MODEL_OPEN_SURFACE_COLUMN,
-	// 				     NULL);
     gtk_tree_view_column_set_cell_data_func (column, cell, (GtkTreeCellDataFunc) surface_data_func, NULL, NULL);
 
 
